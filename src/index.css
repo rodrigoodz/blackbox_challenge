@@ -2,3 +2,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg_color {
+  background-color: #2c2c54;
+}
+
+.question_color {
+  background-color: #227093;
+}
+
+.difficulty_color {
+  background-color: #4c7b7b;
+}
