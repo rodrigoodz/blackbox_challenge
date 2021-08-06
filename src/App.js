@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Question from "./components/Question";
 import QuestionIndex from "./components/QuestionIndex";
@@ -73,7 +74,19 @@ function App() {
           <QuestionIndex index={qControl.currentQ} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-around w-2/6 text-white shadow-2xl h-2/6 question_color rounded-2xl">
+        <motion.div
+          animate={{ y: -20 }}
+          initial={{ y: 0 }}
+          transition={{
+            y: {
+              duration: 0.4,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeOut",
+            },
+          }}
+          className="flex flex-col items-center justify-around w-2/6 text-white shadow-2xl h-2/6 question_color rounded-2xl"
+        >
           <h1 className="text-2xl pointer-events-none sm:text-4xl md:text-5xl lg:text-7xl">
             Score: {qControl.score}
           </h1>
@@ -87,7 +100,7 @@ function App() {
               Retry
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
