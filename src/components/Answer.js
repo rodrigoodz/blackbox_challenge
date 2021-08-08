@@ -59,7 +59,6 @@ const Answer = ({ text, isCorrect, onAnswerClick }) => {
   return (
     <button
       type="button"
-      disabled={showResult}
       onClick={handleClick}
       className="flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl md:hover:bg-indigo-700 focus:bg-transparent"
     >

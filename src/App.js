@@ -10,16 +10,33 @@ function App() {
   const [qControl, setQControl] = useState({ currentQ: 0, score: 0 });
   const [timesPlayed, setTimesPlayed] = useState(0);
 
+  //TODO podria mover esto a un custom hook
   useEffect(() => {
     setStatus("loading");
     fetch("https://opentdb.com/api.php?amount=10")
       .then((response) => response.json())
       .then(({ results }) => {
         setStatus("completed");
-        setQuestions(parseData(results));
-        //TODO aca deberia hacer el mezclado de las respuesta directamente
+        let questions = parseData(results);
+
+        // Modifico los datos obtenido principalmente para juntar las respuestas
+        let questionsModified = questions.map((q) => {
+          return {
+            question: q.question,
+            category: q.category,
+            difficulty: q.difficulty,
+            answers: [
+              { answer: q.correct_answer, correct: true, id: 0 },
+              ...q.incorrect_answers.map((element, idx) => {
+                return { answer: element, correct: false, id: idx + 1 };
+              }),
+            ].sort(() => 0.5 - Math.random()), //mezclo orden de las respuestas
+          };
+        });
+        setQuestions(questionsModified);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setStatus("error");
       });
     return () => {};

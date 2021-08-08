@@ -1,25 +1,16 @@
 import React from "react";
 import Answer from "./Answer";
 
-const unsortArray = (ar) => ar.sort(() => Math.random() - 0.5);
-
 const Question = ({ questionInfo, onCorrectAnswer }) => {
-  //   console.log(questionInfo);
-
-  const { category, difficulty, incorrect_answers, question, correct_answer } =
-    questionInfo;
-
-  let answers = [
-    { answer: correct_answer, correct: true, id: 0 },
-    ...incorrect_answers.map((element, idx) => {
-      return { answer: element, correct: false, id: idx + 1 };
-    }),
-  ];
-
-  answers = unsortArray(answers);
+  const { category, difficulty, answers, question } = questionInfo;
 
   const handleClick = (text) => {
-    if (correct_answer === text) {
+    // Busco texto de la respuesta correcta en el array
+    const { answer: correctAnswer } = answers.find(
+      (answer) => answer.correct === true
+    );
+    //  veo si matchea con lo clickeado
+    if (correctAnswer === text) {
       if (answers.length === 4) {
         // Si es multiplechoice sumo 10;sino 5
         onCorrectAnswer(10);
