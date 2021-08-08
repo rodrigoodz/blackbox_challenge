@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Answer = ({ text, isCorrect, onAnswerClick }) => {
-  const [showResult, setShowResult] = useState(false);
-
+const Answer = ({ text, isCorrect, showCorrectAnswer, onAnswerClick }) => {
   const handleClick = () => {
-    setShowResult(true);
-    setTimeout(() => {
-      onAnswerClick(text);
-      setShowResult(false);
-    }, 1000);
+    onAnswerClick(text);
   };
 
-  if (showResult) {
+  if (showCorrectAnswer) {
     return (
       <button
         type="button"
+        disabled
         onClick={() => onAnswerClick(text)}
-        className="relative flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl md:hover:bg-indigo-700 focus:bg-transparent"
+        className="relative flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl "
       >
         <p className="flex-1">{text}</p>
         {isCorrect ? (
@@ -60,7 +55,7 @@ const Answer = ({ text, isCorrect, onAnswerClick }) => {
     <button
       type="button"
       onClick={handleClick}
-      className="flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl md:hover:bg-indigo-700 focus:bg-transparent"
+      className="flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl md:hover:bg-indigo-700 "
     >
       <p className="flex-1 ">{text}</p>
     </button>

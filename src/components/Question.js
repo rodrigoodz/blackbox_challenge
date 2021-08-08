@@ -1,26 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import Answer from "./Answer";
 
 const Question = ({ questionInfo, onCorrectAnswer }) => {
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const { category, difficulty, answers, question } = questionInfo;
 
   const handleClick = (text) => {
-    // Busco texto de la respuesta correcta en el array
-    const { answer: correctAnswer } = answers.find(
-      (answer) => answer.correct === true
-    );
-    //  veo si matchea con lo clickeado
-    if (correctAnswer === text) {
-      if (answers.length === 4) {
-        // Si es multiplechoice sumo 10;sino 5
-        onCorrectAnswer(10);
+    setShowCorrectAnswer(true);
+    setTimeout(() => {
+      setShowCorrectAnswer(false);
+      // Busco texto de la respuesta correcta en el array
+      const { answer: correctAnswer } = answers.find(
+        (answer) => answer.correct === true
+      );
+      //  veo si matchea con lo clickeado
+      if (correctAnswer === text) {
+        if (answers.length === 4) {
+          // Si es multiplechoice sumo 10;sino 5
+          onCorrectAnswer(10);
+        } else {
+          onCorrectAnswer(5);
+        }
       } else {
-        onCorrectAnswer(5);
+        // No le paso puntaje si no es correcta pero si avanzo la pregunta
+        onCorrectAnswer(0);
       }
-    } else {
-      // No le paso puntaje si no es correcta pero si avanzo la pregunta
-      onCorrectAnswer(0);
-    }
+    }, 1000);
   };
 
   return (
@@ -49,6 +54,7 @@ const Question = ({ questionInfo, onCorrectAnswer }) => {
               <Answer
                 text={answer.answer}
                 isCorrect={answer.correct}
+                showCorrectAnswer={showCorrectAnswer}
                 key={answer.id}
                 onAnswerClick={handleClick}
               />
