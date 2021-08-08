@@ -1,10 +1,14 @@
 import React from "react";
 import Answer from "./Answer";
 
+const unsortArray = (ar) => ar.sort(() => Math.random() - 0.5);
+
 const Question = ({ questionInfo, onCorrectAnswer }) => {
   //   console.log(questionInfo);
+
   const { category, difficulty, incorrect_answers, question, correct_answer } =
     questionInfo;
+
   let answers = [
     { answer: correct_answer, correct: true, id: 0 },
     ...incorrect_answers.map((element, idx) => {
@@ -12,11 +16,7 @@ const Question = ({ questionInfo, onCorrectAnswer }) => {
     }),
   ];
 
-  const unsortArray = (ar) => ar.sort(() => Math.random() - 0.5);
-
   answers = unsortArray(answers);
-
-  // console.log(answers);
 
   const handleClick = (text) => {
     if (correct_answer === text) {
@@ -35,7 +35,7 @@ const Question = ({ questionInfo, onCorrectAnswer }) => {
   return (
     <div className="w-10/12 shadow-2xl question_color rounded-2xl">
       <div className="relative text-gray-100">
-        <p className="font-light text-center ">{category}</p>
+        <p className="pt-5 font-light text-center">{category}</p>
         <p
           className={`absolute top-0 right-0 px-2 rounded-tr-2xl rounded-bl-xl text-white  ${
             difficulty === "hard"
@@ -57,6 +57,7 @@ const Question = ({ questionInfo, onCorrectAnswer }) => {
             return (
               <Answer
                 text={answer.answer}
+                isCorrect={answer.correct}
                 key={answer.id}
                 onAnswerClick={handleClick}
               />

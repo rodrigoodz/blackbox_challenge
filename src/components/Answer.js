@@ -1,13 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Answer = ({ text, onAnswerClick }) => {
+const Answer = ({ text, isCorrect, onAnswerClick }) => {
+  const [showResult, setShowResult] = useState(false);
+
+  const handleClick = () => {
+    setShowResult(true);
+    setTimeout(() => {
+      onAnswerClick(text);
+      setShowResult(false);
+    }, 1000);
+  };
+
+  if (showResult) {
+    return (
+      <button
+        type="button"
+        onClick={() => onAnswerClick(text)}
+        className="relative flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl md:hover:bg-indigo-700 focus:bg-transparent"
+      >
+        <p className="flex-1">{text}</p>
+        {isCorrect ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute right-0 self-center w-6 h-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            color="green"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute right-0 self-center w-6 h-6 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            color="red"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        )}
+      </button>
+    );
+  }
+
   return (
     <button
       type="button"
-      onClick={() => onAnswerClick(text)}
-      className="p-2 m-2 font-bold text-white border-4 border-blue-900 rounded-2xl hover:bg-blue-700 hover:text-2xl"
+      disabled={showResult}
+      onClick={handleClick}
+      className="flex p-2 m-2 font-bold text-white transition duration-500 border-4 border-blue-900 rounded-2xl md:hover:bg-indigo-700 focus:bg-transparent"
     >
-      {text}
+      <p className="flex-1 ">{text}</p>
     </button>
   );
 };

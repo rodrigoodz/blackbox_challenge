@@ -9,7 +9,7 @@ const Circle = ({ fill }) => {
         r="6"
         stroke="black"
         strokeWidth="1"
-        fill={fill ? "#3B82F6" : "none"}
+        fill={fill ? "#4338CA" : "none"}
       />
     </svg>
   );
