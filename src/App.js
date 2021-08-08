@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Question from "./components/Question";
 import QuestionIndex from "./components/QuestionIndex";
+import StatusMessage from "./components/StatusMessage";
 import useFetchQuestions from "./hooks/useFetchQuestions";
 
 function App() {
   const [qControl, setQControl] = useState({ currentQ: 0, score: 0 });
   const [timesPlayed, setTimesPlayed] = useState(0);
-
   const [questions, status] = useFetchQuestions(timesPlayed);
 
   const handleCorrectAnswer = (score) => {
@@ -25,33 +25,17 @@ function App() {
     setTimesPlayed(timesPlayed + 1);
   };
 
-  // TODO loading y error podria juntarlos cuando status!=="idle" y en base a eso mostrar un mensaje en rojo o blanco
   if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-500 select-none">
-        <div className="flex items-center justify-center w-4/6 md:w-6/12 question_color h-2/4 rounded-2xl">
-          <h1 className="text-2xl font-bold text-white">Loading...</h1>
-        </div>
-      </div>
-    );
+    return <StatusMessage message="Loading..." status={status} />;
   }
 
   if (status === "error") {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-500 select-none">
-        <div className="flex items-center justify-center w-4/6 md:w-6/12 question_color h-2/4 rounded-2xl">
-          <h1 className="text-2xl font-bold text-red-500">
-            There was an error...
-          </h1>
-        </div>
-      </div>
-    );
+    return <StatusMessage message="There was an error..." status={status} />;
   }
 
-  //TODO mejorar esto...
   return (
     <div className="flex items-center justify-center h-screen select-none bg_color">
-      {questions.length > 0 && qControl.currentQ < 10 ? (
+      {status === "success" && qControl.currentQ < 9 ? (
         <div className="flex justify-center w-10/12">
           <Question
             questionInfo={questions[qControl.currentQ]}

@@ -3,16 +3,14 @@ import parseData from "../helpers/parseData";
 
 const useFetchQuestions = (timesPlayed) => {
   const [questions, setQuestions] = useState([]);
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     setStatus("loading");
     fetch("https://opentdb.com/api.php?amount=10")
       .then((response) => response.json())
       .then(({ results }) => {
-        setStatus("completed");
         let questions = parseData(results);
-
         // Modifico los datos obtenido principalmente para juntar las respuestas
         let questionsModified = questions.map((q) => {
           return {
@@ -28,6 +26,7 @@ const useFetchQuestions = (timesPlayed) => {
           };
         });
         setQuestions(questionsModified);
+        setStatus("success");
       })
       .catch((err) => {
         console.log(err);
